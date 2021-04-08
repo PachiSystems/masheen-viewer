@@ -102,3 +102,5 @@ export const CalorieChart: FunctionComponent<CalorieChartProps> = ({data}) => {
         </Card>
     )
 }
+
+export default CalorieChart;

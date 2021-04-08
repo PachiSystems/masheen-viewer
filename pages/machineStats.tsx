@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from "react";
+import React, {FunctionComponent} from "react";
 
-import { Box, Container, LinearProgress, Typography } from "@material-ui/core";
+import {Box, Container, LinearProgress, Typography} from "@material-ui/core";
 import useGet from "../hooks/useGet";
-import { Alert } from "@material-ui/lab";
+import {Alert} from "@material-ui/lab";
 import {StatCard} from "../components/stat-card/StatCard";
 import {DifficultyChart} from "../components/difficulty-chart/DifficultyChart";
 import {RatingChart} from "../components/rating-chart/RatingChart";

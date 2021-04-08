@@ -16,3 +16,8 @@ type SelectedProfile = {
     profileID: string;
     displayName: string;
 }
+
+type ProfileList = {
+    displayName: string;
+    profileID: string;
+}
