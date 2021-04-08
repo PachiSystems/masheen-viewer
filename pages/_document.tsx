@@ -1,22 +1,21 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
+import {Container} from "@material-ui/core";
 
-export default class MyDocument extends Document {
-    static async getInitialProps(ctx) {
-        const initialProps = await Document.getInitialProps(ctx);
-        return {...initialProps}
-    }
-
+class MyDocument extends Document {
     render() {
         return (
             <Html>
                 <Head>
-                    <link rel={'stylesheet'} href={'/_next/static/style.css'} />
                 </Head>
             <body>
-                <Main/>
-                <NextScript/>
+                <Container>
+                    <Main/>
+                    <NextScript/>
+                </Container>
             </body>
             </Html>
         )
     }
 }
+
+export default MyDocument;
