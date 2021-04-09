@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from "react";
 
-import {Box, Container, LinearProgress, Typography} from "@material-ui/core";
+import {Box, Chip, Container, LinearProgress, Typography} from "@material-ui/core";
 import useGet from "../hooks/useGet";
 import {Alert} from "@material-ui/lab";
 import {StatCard} from "../components/stat-card/StatCard";
@@ -8,10 +8,29 @@ import {DifficultyChart} from "../components/difficulty-chart/DifficultyChart";
 import {RatingChart} from "../components/rating-chart/RatingChart";
 import {CalorieChart} from "../components/calorie-chart/CalorieChart";
 import {STEPMANIA_MACHINE_NAME} from "../constants/variables";
+import {QueueMusic} from "@material-ui/icons";
+import {useRouter} from "next/router";
 
 const MachineProfile: FunctionComponent = () => {
 
+    const router = useRouter();
     const { data: Stats, isLoading, error } = useGet<MachineProfile>(`machineProfile`);
+
+    if(!Stats || isLoading) {
+        return (
+            <Container maxWidth={false}>
+                <LinearProgress/>
+            </Container>
+        )
+    }
+
+    if(error) {
+        return (
+            <Container maxWidth={false}>
+                <Alert severity={'error'}>{error}</Alert>
+            </Container>
+        )
+    }
 
     const getTotalGameplayTime = (seconds: string) => {
         let totalSeconds = parseInt(seconds);
@@ -24,22 +43,6 @@ const MachineProfile: FunctionComponent = () => {
             mins,
             secs
         }
-    }
-
-    if(error) {
-        return (
-            <Container maxWidth={false}>
-                <Alert severity={'error'}>{error}</Alert>
-            </Container>
-        )
-    }
-
-    if(!Stats || isLoading) {
-        return (
-            <Container maxWidth={false}>
-                <LinearProgress/>
-            </Container>
-        )
     }
 
     const localProfile = Stats.GeneralData;
@@ -66,6 +69,14 @@ const MachineProfile: FunctionComponent = () => {
             : <Container maxWidth={false}>
                 <Box my={2}>
                     <Typography variant={'h5'}>{STEPMANIA_MACHINE_NAME} Profile</Typography>
+                </Box>
+                <Box>
+                    <Chip
+                        color={'primary'}
+                        icon={<QueueMusic/>}
+                        label={'High Scores'}
+                        onClick={() => router.push(`/songList/machine`)}
+                    />
                 </Box>
                 <hr />
                 <Box my={2}>

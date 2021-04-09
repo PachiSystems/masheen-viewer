@@ -90,6 +90,12 @@ const SongList: FunctionComponent = () => {
     const router = useRouter();
     const classes = useStyles();
     const {id} = router.query;
+    let apiPath = '';
+    if(id === 'machine') {
+        apiPath = 'machineProfile';
+    } else {
+        apiPath = `playerProfile/${id}`;
+    }
 
     if (!id) {
         return (
@@ -101,7 +107,7 @@ const SongList: FunctionComponent = () => {
         )
     }
 
-    const {data: Stats, isLoading, error} = useGet<PlayerProfile>(`playerProfile/${id}`);
+    const {data: Stats, isLoading, error} = useGet<PlayerProfile | MachineProfile>(apiPath);
 
     if (error) {
         return (
@@ -195,7 +201,6 @@ const SongList: FunctionComponent = () => {
                 </Card>
             )
         }
-        console.log('Difficulty:', songItem.Difficulty);
         return (
             <Card>
                 <CardContent>
