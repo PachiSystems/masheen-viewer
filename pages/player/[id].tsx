@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 
-import { Box, Container, LinearProgress, Typography } from "@material-ui/core";
+import {Box, Chip, Container, LinearProgress, Typography} from "@material-ui/core";
 import { useRouter } from "next/router";
 import useGet from "../../hooks/useGet";
 import { Alert } from "@material-ui/lab";
@@ -8,10 +8,21 @@ import {CalorieChart} from '../../components/calorie-chart/CalorieChart';
 import {RatingChart} from "../../components/rating-chart/RatingChart";
 import {DifficultyChart} from "../../components/difficulty-chart/DifficultyChart";
 import {StatCard} from "../../components/stat-card/StatCard";
+import {QueueMusic} from "@material-ui/icons";
 
 const PlayerProfile: FunctionComponent = () => {
     const router = useRouter();
     const { id } = router.query;
+
+    if(!id) {
+        return (
+            <Container maxWidth={false}>
+                <Alert severity={'error'}>
+                    Invalid URL. Profile ID not found in the URL.
+                </Alert>
+            </Container>
+        )
+    }
     const { data: Stats, isLoading, error } = useGet<PlayerProfile>(`playerProfile/${id}`);
 
     const getTotalGameplayTime = (seconds: string) => {
@@ -25,16 +36,6 @@ const PlayerProfile: FunctionComponent = () => {
             mins,
             secs
         }
-    }
-
-    if(!id) {
-        return (
-            <Container maxWidth={false}>
-                <Alert severity={'error'}>
-                    Invalid URL. Profile ID not found in the URL.
-                </Alert>
-            </Container>
-        )
     }
 
     if(error) {
@@ -82,10 +83,21 @@ const PlayerProfile: FunctionComponent = () => {
         !localProfile?.DisplayName
             ? <LinearProgress />
             : <Container maxWidth={false}>
-                <Typography variant={'h6'}>{localProfile.DisplayName}'s Profile</Typography>
+                <Box my={2}>
+                    <Typography variant={'h6'}>{localProfile.DisplayName}'s Profile</Typography>
+                </Box>
+                <Box>
+                    <Chip
+                        color={'primary'}
+                        icon={<QueueMusic/>}
+                        label={'High Scores'}
+                        onClick={() => router.push(`/songList/${id}`)}
+                    />
+                </Box>
                 <hr />
-                <Typography variant={'subtitle2'}>Interesting Stats</Typography>
-                <Box display='flex' flexWrap='wrap'>
+                <Box my={2}>
+                    <Typography variant={'subtitle2'}>Interesting Stats</Typography>
+                    <Box display='flex' flexWrap='wrap'>
                     <StatCard value={`
               ${gameplaySeconds?.hrs}hrs,
               ${gameplaySeconds?.mins}mins, 
@@ -108,16 +120,19 @@ const PlayerProfile: FunctionComponent = () => {
                     <StatCard value={averageFootRating()} desc={'Average Rating'} />
                     <StatCard value={parseFloat(localProfile.TotalCaloriesBurned).toFixed(2)} desc={'Total kcal Burned'}/>
                 </Box>
+                </Box>
                 <hr />
-                <Typography variant={'subtitle2'}>Graphs Of Bash</Typography>
-                <Box>
-                    <DifficultyChart data={localProfile}/>
-                </Box>
-                <Box display={'block'}>
-                    <RatingChart data={localProfile}/>
-                </Box>
-                <Box display={'block'}>
-                    <CalorieChart data={calorieData}/>
+                <Box my={2}>
+                    <Typography variant={'subtitle2'}>Graphs Of Bash</Typography>
+                    <Box>
+                        <DifficultyChart data={localProfile}/>
+                    </Box>
+                    <Box display={'block'}>
+                        <RatingChart data={localProfile}/>
+                    </Box>
+                    <Box display={'block'}>
+                        <CalorieChart data={calorieData}/>
+                    </Box>
                 </Box>
             </Container>
     );

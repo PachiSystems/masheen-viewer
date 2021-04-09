@@ -9,7 +9,7 @@ type Song = {
 
 type Steps = {
     Difficulty: string;
-    HighScoreList: HighScoreItem | HighScoreItem[];
+    HighScoreList: HighScoreItem;
     StepsType: string;
 }
 
