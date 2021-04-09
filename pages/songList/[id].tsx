@@ -173,13 +173,11 @@ const SongList: FunctionComponent = () => {
             case 'FullComboW2':
                 return <span className={classes.perfect}>Perfect Full Combo</span>;
             case 'FullComboW3':
-                return <span className={classes.great}>Great Full Combo</span>;
-            case 'FullComboW4':
-                return <span className={classes.good}>Full Combo</span>;
+                return <span className={classes.great}>Full Combo</span>;
             case 'SingleDigitW3':
-                return <><span className={classes.great}>Great Full Combo</span><br/><em>Single Digit Greats!</em></>
+                return <><span className={classes.great}>Full Combo</span><br/><em>Single Digit Greats!</em></>
             case 'OneW3':
-                return <><span className={classes.great}>Great Full Combo</span><br/><em>Only One Great!</em></>
+                return <><span className={classes.great}>Full Combo</span><br/><em>Only One Great!</em></>
             default:
                 return null
         }
