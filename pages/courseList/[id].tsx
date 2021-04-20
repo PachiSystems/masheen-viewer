@@ -87,7 +87,7 @@ const useStyles = makeStyles({
     }
 })
 
-const SongList: FunctionComponent = () => {
+const CourseList: FunctionComponent = () => {
     const router = useRouter();
     const classes = useStyles();
     const {id} = router.query;
@@ -128,23 +128,23 @@ const SongList: FunctionComponent = () => {
 
     const localProfile = Stats.GeneralData;
 
-    const calculateSongsByMix = (songScores: Song[]) => {
-        let songsByMix = {};
-        songScores.forEach((song) => {
-            const songMix = song.Dir.split('/')[1];
-            const songName = song.Dir.split('/')[2];
-            if (typeof songsByMix[songMix] === 'undefined') {
-                songsByMix[songMix] = {[songName]: song};
-            } else if (typeof songsByMix[songMix] !== 'undefined') {
-                songsByMix[songMix][songName] = song;
+    const calculateCourses = (courseScores: Course[]) => {
+        let courses = {};
+        courseScores.forEach((song) => {
+            const courseMix = song.Path.split('/')[1];
+            const courseName = song.Path.split('/')[2];
+            if (typeof courses[courseMix] === 'undefined') {
+                courses[courseMix] = {[courseName]: song};
+            } else if (typeof courses[courseMix] !== 'undefined') {
+                courses[courseMix][courseName] = song;
             }
         });
-        return songsByMix;
+        return courses;
     }
 
-    const mixes = calculateSongsByMix(Stats.SongScores.Song as Song[]);
+    const courses = calculateCourses(Stats.CourseScores.Course as Course[]);
 
-    const SongSection = (props: PropsWithChildren<any>) => (
+    const CourseSection = (props: PropsWithChildren<any>) => (
         <Accordion>
             <AccordionSummary>
                 <Typography variant={'h6'}>
@@ -241,7 +241,7 @@ const SongList: FunctionComponent = () => {
                                 </tr>
                                 <tr>
                                     <td colSpan={2}><strong>Overall grade</strong><br/>
-                                    <img className={classes.gradeImg} src={`/grades/GradeDisplay Grade Grade_${highestScore.Grade}.png`}/></td>
+                                        <img className={classes.gradeImg} src={`/grades/GradeDisplay Grade Grade_${highestScore.Grade}.png`}/></td>
                                 </tr>
                                 <tr>
                                     <td colSpan={2}>
@@ -265,17 +265,17 @@ const SongList: FunctionComponent = () => {
                     <Typography variant={'h6'}>Song Scores</Typography>
                 </Box>
                 {
-                    Object.entries(mixes).map((mix) => {
-                        const [mixName, songs] = mix;
-                        const songList = Object.entries(songs).map((song) => {
-                            return song;
+                    Object.entries(courses).map((mix) => {
+                        const [mixName, courses] = mix;
+                        const songList = Object.entries(courses).map((course) => {
+                            return course;
                         })
                         return (
-                            <Box my={2}>
+                            <Box my={2} key={mixName}>
                                 <Typography variant={'h5'}>{mixName}</Typography>
                                 {
-                                    songList.map((song) => {
-                                        const [songTitle, details] = song;
+                                    songList.map((course) => {
+                                        const [courseTitle, details] = course;
 
                                         /**
                                          * Figuring out this flow...
@@ -287,25 +287,25 @@ const SongList: FunctionComponent = () => {
                                          *      Yes: Run through each item checking the HighScoreList.HighScore as above.
                                          */
 
-                                        const isMultiEntry = Array.isArray(details.Steps);
+                                        const isMultiEntry = Array.isArray(details.Trail);
 
                                         if (isMultiEntry) {
                                             // Run through each item.
                                             return (
-                                                <SongSection title={songTitle}>
-                                                {
-                                                    details.Steps.map((steps) => {
-                                                        return renderHighScore(steps)
-                                                    })
-                                                }
-                                                </SongSection>
+                                                <CourseSection title={courseTitle}>
+                                                    {
+                                                        details.Trail.map((steps) => {
+                                                            return renderHighScore(steps)
+                                                        })
+                                                    }
+                                                </CourseSection>
                                             )
                                         } else {
                                             // Render out a single item.
                                             return (
-                                                <SongSection title={songTitle}>
-                                                    {renderHighScore(details.Steps)}
-                                                </SongSection>
+                                                <CourseSection title={courseTitle}>
+                                                    {renderHighScore(details.Trail)}
+                                                </CourseSection>
                                             )
                                         }
                                     })
@@ -318,4 +318,4 @@ const SongList: FunctionComponent = () => {
     );
 }
 
-export default SongList;
+export default CourseList;

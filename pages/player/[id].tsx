@@ -8,7 +8,8 @@ import {CalorieChart} from '../../components/calorie-chart/CalorieChart';
 import {RatingChart} from "../../components/rating-chart/RatingChart";
 import {DifficultyChart} from "../../components/difficulty-chart/DifficultyChart";
 import {StatCard} from "../../components/stat-card/StatCard";
-import {QueueMusic} from "@material-ui/icons";
+import {MusicNote, QueueMusic} from "@material-ui/icons";
+import {DIFFICULTY_MAP} from "../../constants/mappings";
 
 const PlayerProfile: FunctionComponent = () => {
     const router = useRouter();
@@ -58,13 +59,6 @@ const PlayerProfile: FunctionComponent = () => {
     const calorieData = Stats.CalorieData;
     const gameplaySeconds = getTotalGameplayTime(localProfile.TotalGameplaySeconds);
 
-    const difficultyMap = {
-        'Beginner': 'Basic',
-        'Medium': 'Difficult',
-        'Hard': 'Expert',
-        'Challenge': 'Challenge'
-    } as any;
-
     const averageFootRating = () => {
         let levelTotals = 0;
         let numberOfEntries = 0;
@@ -89,9 +83,15 @@ const PlayerProfile: FunctionComponent = () => {
                 <Box>
                     <Chip
                         color={'primary'}
-                        icon={<QueueMusic/>}
-                        label={'High Scores'}
+                        icon={<MusicNote/>}
+                        label={'Song Scores'}
                         onClick={() => router.push(`/songList/${id}`)}
+                    />&nbsp;&nbsp;&nbsp;
+                    <Chip
+                        color={'primary'}
+                        icon={<QueueMusic/>}
+                        label={'Course Scores'}
+                        onClick={() => router.push(`/courseList/${id}`)}
                     />
                 </Box>
                 <hr />
@@ -113,7 +113,7 @@ const PlayerProfile: FunctionComponent = () => {
                             ? <StatCard value={localProfile.Course?.Path?.split('/')[2]} desc={'Last Course Played'}/>
                             : null
                     }
-                    <StatCard value={`${difficultyMap[localProfile.LastDifficulty]} - ${localProfile.LastStepsType.split('-')[1]}`} desc={'Last Difficulty Played'}/>
+                    <StatCard value={`${DIFFICULTY_MAP[localProfile.LastDifficulty]} - ${localProfile.LastStepsType.split('-')[1]}`} desc={'Last Difficulty Played'}/>
                     <StatCard value={localProfile.TotalTapsAndHolds} desc={'Total Steps'}/>
                     <StatCard value={localProfile.TotalJumps} desc={'Total Jumps'}/>
                     <StatCard value={localProfile.NumTotalSongsPlayed} desc={'Total Songs'}/>

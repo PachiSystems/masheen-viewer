@@ -2,6 +2,7 @@ type MachineProfile = {
     GeneralData: GeneralData;
     CalorieData: CalorieData;
     SongScores: SongScores;
+    CourseScores: CourseScores;
 }
 
 type PlayerProfile = {

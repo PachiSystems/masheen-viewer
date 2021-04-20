@@ -8,7 +8,7 @@ import {DifficultyChart} from "../components/difficulty-chart/DifficultyChart";
 import {RatingChart} from "../components/rating-chart/RatingChart";
 import {CalorieChart} from "../components/calorie-chart/CalorieChart";
 import {STEPMANIA_MACHINE_NAME} from "../constants/variables";
-import {QueueMusic} from "@material-ui/icons";
+import {MusicNote, QueueMusic} from "@material-ui/icons";
 import {useRouter} from "next/router";
 
 const MachineProfile: FunctionComponent = () => {
@@ -73,9 +73,15 @@ const MachineProfile: FunctionComponent = () => {
                 <Box>
                     <Chip
                         color={'primary'}
-                        icon={<QueueMusic/>}
-                        label={'High Scores'}
+                        icon={<MusicNote/>}
+                        label={'Song Scores'}
                         onClick={() => router.push(`/songList/machine`)}
+                    />&nbsp;&nbsp;&nbsp;
+                    <Chip
+                        color={'primary'}
+                        icon={<QueueMusic/>}
+                        label={'Course Scores'}
+                        onClick={() => router.push(`/courseList/machine`)}
                     />
                 </Box>
                 <hr />
